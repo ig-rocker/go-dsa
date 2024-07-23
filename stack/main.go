@@ -7,38 +7,41 @@ import (
 
 type Stack struct {
 	list []int
+	top int
 }
 
 func (s *Stack)Push(val int){
-	s.list=append(s.list, val)
+	s.list[s.top+1]=val
+	s.top++
 }
 
 func (s *Stack) Pop() (bool, error) {
-	n := len(s.list)
-	if n == 0 {
+	if s.top== -1 {
 		return false, errors.New("Stack is Empty")
 	}
-	s.list = s.list[:n-1]
+	s.top--
 	return true, nil
 }
 func (s *Stack)Size()int{
-	return len(s.list)
+	return s.top+1
 }
 func (s *Stack) Print() {
 	fmt.Printf("Stack data:-> \n")
-	for _, val := range s.list {
-		fmt.Println(val)
+	for i:=0;i<=s.top;i++{
+		fmt.Println(s.list[i])
 	}
 }
 
 func main() {
 	s := Stack{
-		list: []int{1,2,4,5,6},
+		list: make([]int,10),
+		top:-1,
 	}
 	s.Push(11)
 	s.Push(55)
 	n:=s.Size()
 	fmt.Printf("size of stack %d \n",n)
+	s.Print()
 	s.Pop()
 	s.Print()
 }
